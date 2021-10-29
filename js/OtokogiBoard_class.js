@@ -105,8 +105,8 @@ class OtokogiBoard {
     xh = '<div class="' + style + '">';
 
     //offtray
-    const offstyle = this.obj2style(this.getPosObjBottom(this.thumbPointX[0], this.offY));
-    xh += '<div class="thumbofftray" style="' + offstyle + '"></div>';
+    const style2 = this.obj2style(this.getPosObjBottom(this.thumbPointX[0], this.offY));
+    xh += '<div class="thumbofftray" style="' + style2 + '"></div>';
 
     //point triangles
     const pointColorClass = ["pt_dnev", "pt_dnod"];
@@ -134,11 +134,11 @@ class OtokogiBoard {
     return xh;
   }
 
-  showBoard(otokogiid) {
-    this.ogid = otokogiid;
-    this.showPosition(otokogiid);
-    this.showDice(otokogiid);
-    this.changeAppearance(otokogiid);
+  showBoard(ogid) {
+    this.ogid = ogid;
+    this.showPosition(ogid);
+    this.showDice(ogid);
+    this.changeAppearance(ogid);
   }
 
   showDice(ogid) {
@@ -203,8 +203,8 @@ class OtokogiBoard {
     this.mainBoardWidth  = this.mainBoard.width();
 
     //サムネイルボードの大きさの定数を計算
-    this.thumbBoardHeight = $("#thumbnail_0").height();
-    this.thumbBoardWidth  = $("#thumbnail_0").width();
+    this.thumbBoardHeight = $("#thumbnail0").height();
+    this.thumbBoardWidth  = $("#thumbnail0").width();
 
     this.pointWidth = this.mainBoardWidth * 0.99 / 7; //ポイントの幅を計算
     this.pieceWidth = window.innerWidth *  (boardWidth8Num / 100) / 7; //チェッカーは大きさを変えない
@@ -218,6 +218,7 @@ class OtokogiBoard {
     this.thumbPieceHeight = this.thumbPieceWidth;
     this.thumbBoffHeight = this.thumbPieceWidth * 0.4;
 
+    this.pointY = 0;
     this.pointX = [];
     this.thumbPointX = [];
     for (let n = 0; n <= 6; n++) {
@@ -226,9 +227,7 @@ class OtokogiBoard {
       this.thumbPointX[n] = px * this.thumbPointWidth;
     }
 
-    this.pointY = 0;
-
-    this.ylower = this.mainBoardHeight - this.pieceHeight;
+    this.ylower = this.mainBoardHeight - this.pieceHeight; //一番下のコマ位置Y
 
     this.diceY = this.mainBoardHeight * 0.15;
     this.dice1X = this.pointX[2];
@@ -301,4 +300,3 @@ class OtokogiBoard {
   }
 
 } //class BgBoard
-

@@ -5,14 +5,12 @@ class Ogid {
   constructor(ogidstr = "OGID=-------:00:0") {
     this._ogid = ogidstr;
     this._position = "-------";
-    this._player = 1;
+    this._player = 0;
     this._dice = "00";
     this._ptno = [];
+    this._movablelist = [];
 
     this._parse_ogid(this._ogid); // ogidを解析
-    this._parse_position(this._position); // ボード状態を解析
-    this._topt = ((f, d) => (f - d < 0) ? 0 : (f - d));
-    this._movablelist = [];
   }
 
   // ogidをパースし状態をローカル変数に格納
@@ -23,11 +21,11 @@ class Ogid {
     this._position = s[0];
     this._set_dice(s[1]);
     this._player = Number(s[2]);
+    this._parse_position(this._position); // ボード状態を解析
   }
 
   _set_dice(dicestr) {
     this._dice = dicestr;
-    // dice_odrはダイスを昇順にして保持する
     const dice1 = Number(dicestr.substr(0,1));
     const dice2 = Number(dicestr.substr(1,1));
     this.zorome = (dicestr != "00" && dice1 == dice2);
@@ -56,10 +54,7 @@ class Ogid {
   }
 
   _makeogidStr() {
-    this._ogid = "OGID=" +
-                 this._position + ":" +
-                 this._dice + ":" +
-                 this._player;
+    this._ogid = "OGID=" + this._position + ":" + this._dice + ":" + this._player;
   }
 
   // getter functions
@@ -130,6 +125,7 @@ class Ogid {
 
   makeMovableList() {
     //盤面から動かせる駒のリストを作る
+    this._topt = ((f, d) => (f - d < 0) ? 0 : (f - d));
     this._movablelist = [];
     const piplist = this._makeDicePipList();
     for (let fr = 1; fr <= 6; fr++) {

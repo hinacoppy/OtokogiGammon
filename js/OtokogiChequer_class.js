@@ -8,8 +8,6 @@ class Chequer {
     this._domhtml = '<div id="' + this._domid + '" class="chequer turncolor"></div>';
     this._dom = null;
     this._point = 0;
-    this._stack = 0;
-    this._stackidx = 0;
   }
 
   //setter method

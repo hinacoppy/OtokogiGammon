@@ -18,14 +18,15 @@
 <body>
 <article id="container" class="container8">
 <section id="board" class="board"></section>
-<section id="thumbnail_0" class="thumbboard"></section>
-<section id="thumbnail_1" class="thumbboard"></section>
-<section id="thumbnail_2" class="thumbboard"></section>
-<section id="thumbnail_3" class="thumbboard"></section>
-<section id="thumbnail_4" class="thumbboard"></section>
-<section id="thumbnail_5" class="thumbboard"></section>
-<section id="thumbnail_6" class="thumbboard"></section>
-<section id="thumbnail_7" class="thumbboard"></section>
+<section id="thumbnail0" class="thumbboard"></section>
+<section id="thumbnail1" class="thumbboard"></section>
+<section id="thumbnail2" class="thumbboard"></section>
+<section id="thumbnail3" class="thumbboard"></section>
+<section id="thumbnail4" class="thumbboard"></section>
+<section id="thumbnail5" class="thumbboard"></section>
+<section id="thumbnail6" class="thumbboard"></section>
+<section id="thumbnail7" class="thumbboard"></section>
+</article>
 
 <button id="rollbtn" class="oparationbtn"><i class="fas fa-dice"></i> 振賽</button>
 <section id="doneundo">
@@ -37,15 +38,23 @@
 <aside id="youwin">漢気!!</aside>
 
 <aside id="settings" class="settings">
-<h2>### &emsp; 漢気ギャモン 設定 &emsp; ###</h2>
+<h2>### &emsp; 漢気ギャモン &emsp; ###</h2>
 <p>
-参加人数:
-<input id="players" type="number" max="8" min="1" value="4">
+参加人数: &nbsp;
+<select id="players" name="players">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4" selected>4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+</select>
 <br><br>
 <button id="applybtn" class="oparationbtn"><i class="fas fa-check"></i> 適用</button>&emsp; &emsp;
 <button id="cancelbtn" class="oparationbtn"><i class="fas fa-times"></i> 取消</button>&emsp; &emsp;
 </aside>
-</article>
 
 
 <script src="/js/fontawesome-all.min.js" defer></script>

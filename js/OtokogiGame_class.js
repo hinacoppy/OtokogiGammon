@@ -15,6 +15,7 @@ class OtokogiGammon {
     this.outerDragFlag = false; //駒でない部分をタップしてドラッグを始めたら true
     if (this.playernum == 0) { //プレーヤ数が未定義で起動されたとき
       this.setButtonEnabled(this.cancelbtn, false);
+      this.settings.css(this.calcDrawPosition('S', this.settings)); //設定画面の位置決め
       this.showSettingPanelAction();
     } else {
       this.initGameOption();
@@ -37,12 +38,20 @@ class OtokogiGammon {
     this.doneundo    = $("#doneundo");
     this.youwin      = $("#youwin");
     this.container   = $("#container");
+    this.boardpanel  = $("#board");
 
     //settings and valiables
     this.settings    = $("#settings");
 
     //chequer
     this.chequerall  = $(".chequer");
+  }
+
+  setPanelPosition() {
+    this.rollbtn.css(this.calcDrawPosition('B', this.rollbtn));
+    this.doneundo.css(this.calcDrawPosition('B', this.doneundo));
+    this.youwin.css(this.calcDrawPosition('B', this.youwin));
+    this.settings.css(this.calcDrawPosition('S', this.settings));
   }
 
   setEventHandler() {
@@ -63,8 +72,8 @@ class OtokogiGammon {
     for (let n = 0; n < 8; n++) {
       this.otokogiID[n] = "OGID=------D:00:" + n;
       const thumbboard = this.board.makeThumbBoard(new Ogid(this.otokogiID[n]));
-      $("#thumbnail_" + n).html(thumbboard).toggle(n < this.playernum); //togge=show/hide
-      $("#thumbnail_" + n).removeClass("current");
+      $("#thumbnail" + n).html(thumbboard).toggle(n < this.playernum); //togge=show/hide
+      $("#thumbnail" + n).removeClass("current");
     }
     this.currentplayer = 0;
 
@@ -74,16 +83,17 @@ class OtokogiGammon {
       this.container.removeClass("container4").addClass("container8");
     }
     this.board.redraw();
+    this.setPanelPosition();
   }
 
   beginNewGame() {
     this.ogid = new Ogid(this.otokogiID[this.currentplayer]);
-    $("#thumbnail_" + this.currentplayer).addClass("current");
+    $("#thumbnail" + this.currentplayer).addClass("current");
     this.board.showBoard(this.ogid);
     this.swapChequerDraggable(false);
     this.clearCurrPosition();
     this.hideAllPanel();
-    this.showRollButton();
+    this.rollbtn.show();
   }
 
   async rollAction() {
@@ -112,7 +122,7 @@ class OtokogiGammon {
     const ogidstr = this.ogid.get_ogidstr();
     this.otokogiID[this.currentplayer] = ogidstr;
     const thumbboard = this.board.makeThumbBoard(new Ogid(ogidstr));;
-    $("#thumbnail_" + this.currentplayer).html(thumbboard).removeClass("current");
+    $("#thumbnail" + this.currentplayer).html(thumbboard).removeClass("current");
 
     this.currentplayer = this.nextPlayer();
     this.beginNewGame();
@@ -140,14 +150,6 @@ class OtokogiGammon {
   nextPlayer() {
     const currentplayer = (this.currentplayer == this.playernum - 1) ? 0 : this.currentplayer + 1;
     return currentplayer;
-  }
-
-  showRollButton() {
-    this.rollbtn.show();
-  }
-
-  showDoneUndoPanel() {
-    this.doneundo.show();
   }
 
   hideAllPanel() {
@@ -185,6 +187,14 @@ class OtokogiGammon {
     const d2 = random6();
     const dicestr = String(d1) + String(d2);
     return dicestr;
+  }
+
+  calcDrawPosition(pos, elem) {
+    const p_width = (pos == 'B') ? this.boardpanel.width() : window.innerWidth;
+    const p_height = (pos == 'B') ? this.boardpanel.height() : window.innerHeight;
+    const wx = (p_width - elem.outerWidth(true)) / 2;
+    const wy = (p_height - elem.outerHeight(true)) / 2;
+    return {left:wx, top:wy};
   }
 
   clearCurrPosition() {
