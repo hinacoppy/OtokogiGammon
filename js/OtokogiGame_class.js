@@ -9,6 +9,7 @@ class OtokogiGammon {
     this.player = 0;
     this.otokogiID = [];
     this.animDelay = 800;
+    this.gamefinished = true;
 
     this.setDomNames();
     this.setEventHandler();
@@ -95,6 +96,7 @@ class OtokogiGammon {
     this.clearCurrPosition();
     this.hideAllPanel();
     this.rollbtn.show();
+    this.gamefinished = false;
   }
 
   async rollAction() {
@@ -120,6 +122,7 @@ class OtokogiGammon {
 
   doneAction() {
     if (!this.ogid.moveFinished()) { return; } //動かし終わっていなければ
+    if (this.gamefinished) { return; } //ゲームが終わっていれば
     this.ogid.dice = "00";
     const ogidstr = this.ogid.get_ogidstr();
     this.otokogiID[this.player] = ogidstr;
@@ -132,6 +135,7 @@ class OtokogiGammon {
 
   bearoffAllAction() {
     this.hideAllPanel();
+    this.gamefinished = true;
 
     const animClass = "faa-tada animated";
     this.youwin.show().addClass(animClass);
