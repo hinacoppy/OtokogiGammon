@@ -5,9 +5,10 @@ class OtokogiGammon {
   constructor(playernum = 0) {
     this.playernum = playernum;
     this.board = new OtokogiBoard();
-    this.animDelay = 800;
-    this.otokogiID = [];
     this.ogid = null;
+    this.player = 0;
+    this.otokogiID = [];
+    this.animDelay = 800;
 
     this.setDomNames();
     this.setEventHandler();
@@ -35,12 +36,10 @@ class OtokogiGammon {
     this.pointTriangle = $(".point");
 
     //panel
-    this.doneundo    = $("#doneundo");
-    this.youwin      = $("#youwin");
     this.container   = $("#container");
     this.boardpanel  = $("#board");
-
-    //settings and valiables
+    this.doneundo    = $("#doneundo");
+    this.youwin      = $("#youwin");
     this.settings    = $("#settings");
 
     //chequer
@@ -60,35 +59,37 @@ class OtokogiGammon {
     this.rollbtn.       on(clickEventType, (e) => { e.preventDefault(); this.rollAction(false); });
     this.donebtn.       on(clickEventType, (e) => { e.preventDefault(); this.doneAction(); });
     this.undobtn.       on(clickEventType, (e) => { e.preventDefault(); this.undoAction(); });
-    this.diceAsBtn.     on(clickEventType, (e) => { e.preventDefault(); this.diceAsDoneAction(e); });
+    this.diceAsBtn.     on(clickEventType, (e) => { e.preventDefault(); this.doneAction(e); });
     this.settingbtn.    on(clickEventType, (e) => { e.preventDefault(); this.showSettingPanelAction(); });
-    this.applybtn.      on(clickEventType, (e) => { e.preventDefault(); this.newGameAction(); });
+    this.applybtn.      on(clickEventType, (e) => { e.preventDefault(); this.applySettingPanelAction(); });
     this.cancelbtn.     on(clickEventType, (e) => { e.preventDefault(); this.cancelSettingPanelAction(); });
     this.pointTriangle. on('touchstart mousedown', (e) => { e.preventDefault(); this.pointTouchStartAction(e); });
     $(window).          on('resize',       (e) => { e.preventDefault(); this.board.redraw(); }); 
   }
 
   initGameOption() {
+    this.board.shuffleColor(); //色をシャッフル
     for (let n = 0; n < 8; n++) {
       this.otokogiID[n] = "OGID=------D:00:" + n;
       const thumbboard = this.board.makeThumbBoard(new Ogid(this.otokogiID[n]));
       $("#thumbnail" + n).html(thumbboard).toggle(n < this.playernum); //togge=show/hide
       $("#thumbnail" + n).removeClass("current");
     }
-    this.currentplayer = 0;
 
     if (this.playernum <= 4) {
       this.container.removeClass("container8").addClass("container4");
     } else {
       this.container.removeClass("container4").addClass("container8");
     }
+
+    this.player = 0;
     this.board.redraw();
     this.setPanelPosition();
   }
 
   beginNewGame() {
-    this.ogid = new Ogid(this.otokogiID[this.currentplayer]);
-    $("#thumbnail" + this.currentplayer).addClass("current");
+    this.ogid = new Ogid(this.otokogiID[this.player]);
+    $("#thumbnail" + this.player).addClass("current");
     this.board.showBoard(this.ogid);
     this.swapChequerDraggable(false);
     this.clearCurrPosition();
@@ -110,7 +111,7 @@ class OtokogiGammon {
   undoAction() {
     //ムーブ前のボードを再表示
     if (this.isEmptyCurrPosition()) { return; }
-    const ogidstr  = this.getCurrPosition();
+    const ogidstr = this.getCurrPosition();
     this.ogid = new Ogid(ogidstr);
     this.setButtonEnabled(this.donebtn, false);
     this.board.showBoard(this.ogid);
@@ -118,18 +119,15 @@ class OtokogiGammon {
   }
 
   doneAction() {
+    if (!this.ogid.moveFinished()) { return; } //動かし終わっていなければ
     this.ogid.dice = "00";
     const ogidstr = this.ogid.get_ogidstr();
-    this.otokogiID[this.currentplayer] = ogidstr;
+    this.otokogiID[this.player] = ogidstr;
     const thumbboard = this.board.makeThumbBoard(new Ogid(ogidstr));;
-    $("#thumbnail" + this.currentplayer).html(thumbboard).removeClass("current");
+    $("#thumbnail" + this.player).html(thumbboard).removeClass("current");
 
-    this.currentplayer = this.nextPlayer();
+    this.player = this.nextPlayer();
     this.beginNewGame();
-  }
-
-  diceAsDoneAction(e) {
-    this.doneAction();
   }
 
   bearoffAllAction() {
@@ -148,8 +146,7 @@ class OtokogiGammon {
   }
 
   nextPlayer() {
-    const currentplayer = (this.currentplayer == this.playernum - 1) ? 0 : this.currentplayer + 1;
-    return currentplayer;
+    return (this.player + 1 == this.playernum) ? 0 : this.player + 1;
   }
 
   hideAllPanel() {
@@ -163,18 +160,18 @@ class OtokogiGammon {
     this.setButtonEnabled(this.settingbtn, false);
   }
 
-  cancelSettingPanelAction() {
-    this.settings.slideToggle("normal"); //設定画面を消す
-    this.setButtonEnabled(this.settingbtn, true);
-  }
-
-  newGameAction() {
+  applySettingPanelAction() {
     this.settings.slideToggle("normal"); //設定画面を消す
     this.setButtonEnabled(this.cancelbtn, true);
     this.setButtonEnabled(this.settingbtn, true);
     this.playernum = parseInt($("#players").val());
     this.initGameOption();
     this.beginNewGame();
+  }
+
+  cancelSettingPanelAction() {
+    this.settings.slideToggle("normal"); //設定画面を消す
+    this.setButtonEnabled(this.settingbtn, true);
   }
 
   setButtonEnabled(button, enable) {
@@ -322,10 +319,10 @@ class OtokogiGammon {
   swapChequerDraggable(enable) {
     this.chequerall.removeClass("draggable");
     if (!enable) { return; }
-    for (let i = 0; i < 4; i++) {
-      const pt = this.board.chequer[i].point;
+    for (let n = 0; n < 4; n++) {
+      const pt = this.board.chequer[n].point;
       if (pt == 0) { continue; }
-      this.board.chequer[i].dom.addClass("draggable");
+      this.board.chequer[n].dom.addClass("draggable");
     }
   }
 

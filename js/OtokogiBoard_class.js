@@ -68,12 +68,12 @@ class OtokogiBoard {
     //point triangles
     this.point = [];
     const pointColorClass = ["pt_dnev", "pt_dnod"];
-    for (let i = 1; i <= 6; i++) {
-      const colfig = (i % 2); //0=under+even, 1=under+odd
-      const xh = '<div id="pt' + i + '" class="point ' + pointColorClass[colfig] + '"></div>';
+    for (let p = 1; p <= 6; p++) {
+      const colfig = (p % 2); //0=under+even, 1=under+odd
+      const xh = '<div id="pt' + p + '" class="point ' + pointColorClass[colfig] + '"></div>';
       this.mainBoard.append(xh);
-      this.point[i] = $('#pt' + i);
-      this.point[i].css(this.getPosObjBottom(this.pointX[i], this.pointY));
+      this.point[p] = $('#pt' + p);
+      this.point[p].css(this.getPosObjBottom(this.pointX[p], this.pointY));
     }
     this.pointAll = $(".point");
 
@@ -88,16 +88,16 @@ class OtokogiBoard {
 
     //Chequer
     this.chequer = [];
-    for (let i = 0; i < 4; i++) {
-      this.chequer[i] = new Chequer(i);
-      const xh = this.chequer[i].domhtml;
+    for (let n = 0; n < 4; n++) {
+      this.chequer[n] = new Chequer(n);
+      const xh = this.chequer[n].domhtml;
       this.mainBoard.append(xh);
-      this.chequer[i].dom = true;
+      this.chequer[n].dom = true;
     }
   }
 
   makeThumbBoard(ogid) {
-    let xh = "";
+    let xh;
 
     //container
     const player = ogid.player;
@@ -110,9 +110,9 @@ class OtokogiBoard {
 
     //point triangles
     const pointColorClass = ["pt_dnev", "pt_dnod"];
-    for (let i = 1; i <= 6; i++) {
-      const colfig = (i % 2); //0=under+even, 1=under+odd
-      const style = this.obj2style(this.getPosObjBottom(this.thumbPointX[i], this.pointY));
+    for (let p = 1; p <= 6; p++) {
+      const colfig = (p % 2); //0=under+even, 1=under+odd
+      const style = this.obj2style(this.getPosObjBottom(this.thumbPointX[p], this.pointY));
       xh += '<div class="thumbpoint ' + pointColorClass[colfig] + '" style="' + style + '"></div>';
     }
 
@@ -120,10 +120,10 @@ class OtokogiBoard {
     for (let pt = 0; pt <= 6; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
-        const ex = 6 - pt;
+        const ex = this.thumbPointX[pt];
         const ey = (pt == 0) ? (n * this.thumbBoffHeight) : (n * this.thumbPieceHeight);
-        const style = this.obj2style(this.getPosObjBottom(this.thumbPointX[pt], ey));
-        const boff = (pt==0) ? " bearoff" : "";
+        const style = this.obj2style(this.getPosObjBottom(ex, ey));
+        const boff = (pt == 0) ? " bearoff" : "";
         xh += '<div class="thumbchecker turncolor' + boff + '" style="' + style + '"></div>';
       }
     }
@@ -221,10 +221,10 @@ class OtokogiBoard {
     this.pointY = 0;
     this.pointX = [];
     this.thumbPointX = [];
-    for (let n = 0; n <= 6; n++) {
-      const px = 6 - n;
-      this.pointX[n]      = px * this.pointWidth;
-      this.thumbPointX[n] = px * this.thumbPointWidth;
+    for (let p = 0; p <= 6; p++) {
+      const px = 6 - p;
+      this.pointX[p]      = px * this.pointWidth;
+      this.thumbPointX[p] = px * this.thumbPointWidth;
     }
 
     this.ylower = this.mainBoardHeight - this.pieceHeight; //一番下のコマ位置Y
@@ -273,8 +273,8 @@ class OtokogiBoard {
 
   flashOnMovablePoint(destpt) {
     for (const dp of destpt) {
-      if (dp == 0) { this.offtray.toggleClass("flash", true); }
-      else { this.point[dp].toggleClass("flash", true); }
+      if (dp == 0) { this.offtray.addClass("flash"); }
+      else { this.point[dp].addClass("flash"); }
     }
   }
 
@@ -289,14 +289,18 @@ class OtokogiBoard {
     //offtray
     this.offtray.css(this.getPosObjBottom(this.pointX[0], this.offY));
     //point triangles
-    for (let i = 1; i <= 6; i++) {
-      this.point[i].css(this.getPosObjBottom(this.pointX[i], this.pointY));
+    for (let p = 1; p <= 6; p++) {
+      this.point[p].css(this.getPosObjBottom(this.pointX[p], this.pointY));
     }
     //dice
     this.dice1.css(this.getPosObjTop(this.dice1X, this.diceY));
     this.dice2.css(this.getPosObjTop(this.dice2X, this.diceY));
 
     this.showBoard(this.ogid);
+  }
+
+  shuffleColor() {
+    this.boardstyle.sort(()=> Math.random() - 0.5); //色をシャッフルする
   }
 
 } //class BgBoard
