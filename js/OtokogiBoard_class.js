@@ -158,11 +158,11 @@ class OtokogiBoard {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
         const ex = (pt == 0) ? this.pointX[pt] + this.offtrayMargin : this.pointX[pt];
-        const ey = (pt == 0) ? this.ylower - (n * this.boffHeight) : this.ylower - (n * this.pieceHeight);
+        const ey = this.piecefirstY - (n * ((pt == 0) ? this.boffHeight : this.pieceHeight));
         const pos = this.getPosObjTop(ex, ey);
         const zindex = 10 + checkerid;
         this.chequer[checkerid].dom.css(pos).css("z-index", zindex);
-        this.chequer[checkerid].dom.toggleClass("bearoff", pt==0);
+        this.chequer[checkerid].dom.toggleClass("bearoff", pt == 0);
         this.chequer[checkerid].point = pt;
         checkerid += 1;
       }
@@ -172,7 +172,7 @@ class OtokogiBoard {
   changeAppearance(ogid) {
     const player = ogid.get_player();
     const boardstyleall = this.boardstyle.join(" ");
-    const boardstyle = this.boardstyle[parseInt(player)];
+    const boardstyle = this.boardstyle[player];
     this.mainBoard.removeClass(boardstyleall).addClass(boardstyle);
   }
 
@@ -227,7 +227,7 @@ class OtokogiBoard {
       this.thumbPointX[p] = px * this.thumbPointWidth;
     }
 
-    this.ylower = this.mainBoardHeight - this.pieceHeight; //一番下のコマ位置Y
+    this.piecefirstY = this.mainBoardHeight - this.pieceHeight; //一番下のコマ位置Y
 
     this.diceY = this.mainBoardHeight * 0.15;
     this.dice1X = this.pointX[2];
