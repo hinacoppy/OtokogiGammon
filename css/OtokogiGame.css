@@ -95,9 +95,6 @@ input,select{
   padding:2vh 5vw;
   font-size:3vw;
 }
-.current{
-  background:#0c0;
-}
 
 /* Button -------------------------------------*/
 .oparationbtn{

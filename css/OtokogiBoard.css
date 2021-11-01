@@ -33,10 +33,10 @@
   width:var(--point-width);
   height:var(--offtray-height);
   background-color:var(--offtray-color);
-  border:8px solid;
+  border:var(--offtray-margin) solid;
   bottom:0;
   --offtray-height:var(--point-height);
-  --offtray-margin:calc(var(--offtrayMarginNum) * 1px);
+  --offtray-margin:calc((var(--offtrayMarginNum) + 1) * 1px);
 }
 .point{
   position:absolute;
@@ -56,7 +56,7 @@
   width:var(--point-width);
   height:var(--point-width);
   border-radius:50%;
-  border:1px solid gray;
+  border:2px solid gray;
   background-image:linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
   box-shadow:0  2px  2px 0 rgba(255,255,255, .1) inset,
              0  2px 10px 0 rgba(255,255,255, .2) inset,
@@ -83,9 +83,10 @@
   position:absolute;
   width:var(--thumb-point-width);
   height:var(--thumb-point-height);
-  border-left:3px solid var(--board-frame);
-  border-top:3px solid var(--board-frame);
+  border-left:var(--thumbofftray-margin) solid var(--board-frame);
+  border-top:var(--thumbofftray-margin) solid var(--board-frame);
   background-color:var(--offtray-color);
+  --thumbofftray-margin:3px;
 }
 .thumbpoint{
   position:absolute;
@@ -102,6 +103,9 @@
   box-shadow:0  2px  2px 0 rgba(255,255,255, .1) inset,
              0  2px 10px 0 rgba(255,255,255, .2) inset,
              0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
+}
+.current{
+  background:var(--thumbboard-current);
 }
 
 /* Point Triangles ------------------------------------- */
@@ -141,6 +145,7 @@
   --triangle-evn:#205;
   --offtray-color:#ccc;
   --board-frame:#000;
+  --thumbboard-current:#0c0;
 }
 .boardStyle0{
   --ckrcolor:#333;
