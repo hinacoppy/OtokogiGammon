@@ -3,15 +3,15 @@
 
 /* bgboard decoration ---------------------------------------- */
 :root{
-  --boardHeightNum: 99;
-  --boardWidthNum: 70;
-  --boardWidth4Num: 85; /* grid-template-columns の値に合わせる */
-  --boardWidth8Num: 70;
-  --pointWidthNum: 9.6;
-  --offtrayMarginNum: 7; /* .offtrayのborderの -1 がちょうどよい */
-  --thumbBoardHeightNum: 100;
-  --thumbBoardWidthNum: 100;
-  --thumbPointWidthNum: 14;
+  --boardHeightNum:99;
+  --boardWidthNum:70;
+  --boardWidth4Num:85; /* grid-template-columns の値に合わせる */
+  --boardWidth8Num:70;
+  --pointWidthNum:9.6;
+  --offtrayMarginNum:7; /* .offtrayのborderの -1 がちょうどよい */
+  --thumbBoardHeightNum:100;
+  --thumbBoardWidthNum:100;
+  --thumbPointWidthNum:14;
 
   --point-width:calc(var(--pointWidthNum) * 1vw);
   --point-height:calc(var(--boardHeightNum) * 1vh * 0.7);
@@ -57,10 +57,10 @@
   height:var(--point-width);
   border-radius:50%;
   border:1px solid gray;
-  background-image: linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
-  box-shadow: 0  2px  2px 0 rgba(255,255,255, .1) inset,
-              0  2px 10px 0 rgba(255,255,255, .2) inset,
-              0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
+  background-image:linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
+  box-shadow:0  2px  2px 0 rgba(255,255,255, .1) inset,
+             0  2px 10px 0 rgba(255,255,255, .2) inset,
+             0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
   z-index:10;
 }
 
@@ -98,26 +98,26 @@
   height:var(--thumb-point-width);
   border-radius:50%;
   border:1px solid gray;
-  background-image: linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
-  box-shadow: 0  2px  2px 0 rgba(255,255,255, .1) inset,
-              0  2px 10px 0 rgba(255,255,255, .2) inset,
-              0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
+  background-image:linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
+  box-shadow:0  2px  2px 0 rgba(255,255,255, .1) inset,
+             0  2px 10px 0 rgba(255,255,255, .2) inset,
+             0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
 }
 
 /* Point Triangles ------------------------------------- */
-.pt_dnev{
+.pt_dnod{
   background:linear-gradient(to top    left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
              linear-gradient(to top    right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
-.pt_dnod{
+.pt_dnev{
   background:linear-gradient(to top    left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
              linear-gradient(to top    right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
-.pt_upev{
+.pt_upod{
   background:linear-gradient(to bottom left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
              linear-gradient(to bottom right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
-.pt_upod{
+.pt_upev{
   background:linear-gradient(to bottom left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
              linear-gradient(to bottom right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
@@ -145,40 +145,40 @@
 .boardStyle0{
   --ckrcolor:#333;
   --diceface:#333;
-  --dicepip: #fff;
+  --dicepip:#fff;
 }
 .boardStyle1{
   --ckrcolor:#33f;
   --diceface:#33f;
-  --dicepip: #fff;
+  --dicepip:#fff;
 }
 .boardStyle2{
   --ckrcolor:#f33;
   --diceface:#f33;
-  --dicepip: #fff;
+  --dicepip:#fff;
 }
 .boardStyle3{
   --ckrcolor:#3f3;
   --diceface:#3f3;
-  --dicepip: #000;
+  --dicepip:#000;
 }
 .boardStyle4{
   --ckrcolor:#f3f;
   --diceface:#f3f;
-  --dicepip: #000;
+  --dicepip:#000;
 }
 .boardStyle5{
   --ckrcolor:#3ff;
   --diceface:#3ff;
-  --dicepip: #000;
+  --dicepip:#000;
 }
 .boardStyle6{
   --ckrcolor:#ff3;
   --diceface:#ff3;
-  --dicepip: #000;
+  --dicepip:#000;
 }
 .boardStyle7{
   --ckrcolor:#fff;
   --diceface:#fff;
-  --dicepip: #000;
+  --dicepip:#000;
 }

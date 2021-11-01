@@ -64,30 +64,30 @@ input,select{
   grid-area:4/3/5/4;
 }
 #settingbtn{
-  position:absolute; 
+  position:absolute;
   top:2vw;
   left:4vw;
   z-index:20;
 }
 #rollbtn{
-  position:absolute; 
+  position:absolute;
   display:none;
   z-index:20;
 }
 #doneundo{
-  position:absolute; 
+  position:absolute;
   display:none;
   z-index:20;
 }
 #youwin{
-  position:absolute; 
+  position:absolute;
   display:none;
   z-index:50;
   font-size:15vw;
   color:#f00;
 }
 #settings{
-  position:absolute; 
+  position:absolute;
   display:none;
   z-index:99;
   background-color:#dff;
