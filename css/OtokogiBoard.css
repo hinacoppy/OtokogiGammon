@@ -8,7 +8,7 @@
   --boardWidth4Num: 85; /* grid-template-columns の値に合わせる */
   --boardWidth8Num: 70;
   --pointWidthNum: 9.6;
-  --offtrayMarginNum: 5;
+  --offtrayMarginNum: 7; /* .offtrayのborderの -1 がちょうどよい */
   --thumbBoardHeightNum: 100;
   --thumbBoardWidthNum: 100;
   --thumbPointWidthNum: 14;
@@ -33,7 +33,7 @@
   width:var(--point-width);
   height:var(--offtray-height);
   background-color:var(--offtray-color);
-  border:6px solid;
+  border:8px solid;
   bottom:0;
   --offtray-height:var(--point-height);
   --offtray-margin:calc(var(--offtrayMarginNum) * 1px);
@@ -85,7 +85,7 @@
   height:var(--thumb-point-height);
   border-left:3px solid var(--board-frame);
   border-top:3px solid var(--board-frame);
-  background-color:#bbb;
+  background-color:var(--offtray-color);
 }
 .thumbpoint{
   position:absolute;
@@ -106,20 +106,20 @@
 
 /* Point Triangles ------------------------------------- */
 .pt_dnev{
-  background:linear-gradient(to top    left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.3% 100% no-repeat,
-             linear-gradient(to top    right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.3% 100% no-repeat;
+  background:linear-gradient(to top    left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
+             linear-gradient(to top    right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
 .pt_dnod{
-  background:linear-gradient(to top    left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.3% 100% no-repeat,
-             linear-gradient(to top    right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.3% 100% no-repeat;
+  background:linear-gradient(to top    left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
+             linear-gradient(to top    right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
 .pt_upev{
-  background:linear-gradient(to bottom left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.3% 100% no-repeat,
-             linear-gradient(to bottom right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.3% 100% no-repeat;
+  background:linear-gradient(to bottom left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
+             linear-gradient(to bottom right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
 .pt_upod{
-  background:linear-gradient(to bottom left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.3% 100% no-repeat,
-             linear-gradient(to bottom right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.3% 100% no-repeat;
+  background:linear-gradient(to bottom left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
+             linear-gradient(to bottom right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
 }
 
 /* Board Object settings ------------------------------------- */
@@ -136,45 +136,45 @@
 
 /* Board Color Configuration -------------------------------------*/
 :root{
-  --board-color:#aaa;
-  --triangle-odd:#888;
-  --triangle-evn:#ccc;
-  --offtray-color:#bbb;
+  --board-color:#bbb;
+  --triangle-odd:#502;
+  --triangle-evn:#205;
+  --offtray-color:#ccc;
   --board-frame:#000;
 }
 .boardStyle0{
-  --ckrcolor:#222;
-  --diceface:#222;
+  --ckrcolor:#333;
+  --diceface:#333;
   --dicepip: #fff;
 }
 .boardStyle1{
-  --ckrcolor:#22f;
-  --diceface:#22f;
+  --ckrcolor:#33f;
+  --diceface:#33f;
   --dicepip: #fff;
 }
 .boardStyle2{
-  --ckrcolor:#f22;
-  --diceface:#f22;
+  --ckrcolor:#f33;
+  --diceface:#f33;
   --dicepip: #fff;
 }
 .boardStyle3{
-  --ckrcolor:#2f2;
-  --diceface:#2f2;
+  --ckrcolor:#3f3;
+  --diceface:#3f3;
   --dicepip: #000;
 }
 .boardStyle4{
-  --ckrcolor:#f2f;
-  --diceface:#f2f;
+  --ckrcolor:#f3f;
+  --diceface:#f3f;
   --dicepip: #000;
 }
 .boardStyle5{
-  --ckrcolor:#2ff;
-  --diceface:#2ff;
+  --ckrcolor:#3ff;
+  --diceface:#3ff;
   --dicepip: #000;
 }
 .boardStyle6{
-  --ckrcolor:#ff2;
-  --diceface:#ff2;
+  --ckrcolor:#ff3;
+  --diceface:#ff3;
   --dicepip: #000;
 }
 .boardStyle7{
