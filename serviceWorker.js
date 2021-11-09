@@ -2,7 +2,7 @@
 // (参考) https://qiita.com/kaihar4/items/c09a6d73e190ab0b9b01
 'use strict';
 
-const CACHE_NAME = "OtokogiGammon-v20211101";
+const CACHE_NAME = "OtokogiGammon-v20211108";
 const ORIGIN = (location.hostname == 'localhost') ? '' : location.protocol + '//' + location.hostname;
 
 const STATIC_FILES = [
@@ -20,7 +20,6 @@ const STATIC_FILES = [
   ORIGIN + '/js/fontawesome-all.min.js',
   ORIGIN + '/js/jquery-3.6.0.min.js',
   ORIGIN + '/js/inobounce.min.js',
-  ORIGIN + '/js/BgUtil_class.js',
   ORIGIN + '/OtokogiGammon/js/Ogid_class.js',
   ORIGIN + '/OtokogiGammon/js/OtokogiChequer_class.js',
   ORIGIN + '/OtokogiGammon/js/OtokogiBoard_class.js',

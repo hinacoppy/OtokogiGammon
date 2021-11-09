@@ -120,8 +120,8 @@ class OtokogiBoard {
     for (let pt = 0; pt <= 6; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
-        const ex = this.thumbPointX[pt];
-        const ey = (pt == 0) ? (n * this.thumbBoffHeight) : (n * this.thumbPieceHeight);
+        const ex = this.thumbPointX[pt] + (pt == 0 ? this.thumbOfftrayMargin : 0);
+        const ey = n * (pt == 0 ? this.thumbBoffHeight : this.thumbPieceHeight);
         const style = this.obj2style(this.getPosObjBottom(ex, ey));
         const boff = (pt == 0) ? " bearoff" : "";
         xh += '<div class="thumbchecker turncolor' + boff + '" style="' + style + '"></div>';
@@ -157,7 +157,7 @@ class OtokogiBoard {
     for (let pt = 0; pt <= 6; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
-        const ex = (pt == 0) ? this.pointX[pt] + this.offtrayMargin : this.pointX[pt];
+        const ex = this.pointX[pt] + (pt == 0 ? this.offtrayMargin : 0);
         const ey = this.piecefirstY - (n * ((pt == 0) ? this.boffHeight : this.pieceHeight));
         const pos = this.getPosObjTop(ex, ey);
         const zindex = 10 + checkerid;
@@ -203,14 +203,15 @@ class OtokogiBoard {
     this.mainBoardWidth  = this.mainBoard.width();
 
     //サムネイルボードの大きさの定数を計算
-    this.thumbBoardHeight = $("#thumbnail0").height();
-    this.thumbBoardWidth  = $("#thumbnail0").width();
+    this.thumbBoardHeight = $("#thumbboard0").height();
+    this.thumbBoardWidth  = $("#thumbboard0").width();
 
     this.pointWidth = this.mainBoardWidth * 0.99 / 7; //ポイントの幅を計算
     this.pieceWidth = window.innerWidth *  (boardWidth8Num / 100) / 7; //チェッカーは大きさを変えない
     this.pieceHeight = this.pieceWidth;
     this.boffHeight = this.pieceWidth * 0.4;  //ベアオフの駒は立てたように表示
     this.offtrayMargin = offtrayMarginNum;
+    this.thumbOfftrayMargin = 2;
     this.offY = 0;
 
     this.thumbPointWidth = this.thumbBoardWidth * 0.99 / 7;
@@ -235,11 +236,11 @@ class OtokogiBoard {
   }
 
   getPosObjTop(x, y) {
-    return {left:x, top:y}
+    return {left:x, top:y};
   }
 
   getPosObjBottom(x, y) {
-    return {left:x, bottom:y}
+    return {left:x, bottom:y};
   }
 
   obj2style(obj) {
@@ -300,7 +301,7 @@ class OtokogiBoard {
   }
 
   shuffleColor() {
-    this.boardstyle.sort(()=> Math.random() - 0.5); //色をシャッフルする
+    this.boardstyle.sort(() => Math.random() - 0.5); //色をシャッフルする
   }
 
-} //class BgBoard
+} //class OtokogiBoard

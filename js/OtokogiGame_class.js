@@ -8,7 +8,8 @@ class OtokogiGammon {
     this.ogid = null;
     this.player = 0;
     this.otokogiID = [];
-    this.animDelay = 800;
+    this.animDelay = 800; //ダイスを揺らす時間
+    this.animDelay2 = 1600; //漢気!! のアニメーション時間
     this.gamefinished = true;
 
     this.setDomNames();
@@ -48,16 +49,16 @@ class OtokogiGammon {
   }
 
   setPanelPosition() {
-    this.rollbtn.css(this.calcDrawPosition('B', this.rollbtn));
+    this.rollbtn .css(this.calcDrawPosition('B', this.rollbtn));
     this.doneundo.css(this.calcDrawPosition('B', this.doneundo));
-    this.youwin.css(this.calcDrawPosition('B', this.youwin));
+    this.youwin  .css(this.calcDrawPosition('B', this.youwin));
     this.settings.css(this.calcDrawPosition('S', this.settings));
   }
 
   setEventHandler() {
     const clickEventType = 'click touchstart'; //(( window.ontouchstart !== null ) ? 'click':'touchstart');
     //Button Click Event
-    this.rollbtn.       on(clickEventType, (e) => { e.preventDefault(); this.rollAction(false); });
+    this.rollbtn.       on(clickEventType, (e) => { e.preventDefault(); this.rollAction(); });
     this.donebtn.       on(clickEventType, (e) => { e.preventDefault(); this.doneAction(); });
     this.undobtn.       on(clickEventType, (e) => { e.preventDefault(); this.undoAction(); });
     this.diceAsBtn.     on(clickEventType, (e) => { e.preventDefault(); this.doneAction(e); });
@@ -72,9 +73,8 @@ class OtokogiGammon {
     this.board.shuffleColor(); //色をシャッフル
     for (let n = 0; n < 8; n++) {
       this.otokogiID[n] = "OGID=------D:00:" + n;
-      const thumbboard = this.board.makeThumbBoard(new Ogid(this.otokogiID[n]));
-      $("#thumbnail" + n).html(thumbboard).toggle(n < this.playernum); //togge=show/hide
-      $("#thumbnail" + n).removeClass("current");
+      this.showThumbBoard(new Ogid(this.otokogiID[n]), n);
+      $("#thumbboard" + n).removeClass("current").toggle(n < this.playernum); //togge=show/hide
     }
 
     if (this.playernum <= 4) {
@@ -90,7 +90,7 @@ class OtokogiGammon {
 
   beginNewGame() {
     this.ogid = new Ogid(this.otokogiID[this.player]);
-    $("#thumbnail" + this.player).addClass("current");
+    $("#thumbboard" + this.player).addClass("current");
     this.board.showBoard(this.ogid);
     this.swapChequerDraggable(false);
     this.clearCurrPosition();
@@ -117,6 +117,7 @@ class OtokogiGammon {
     this.ogid = new Ogid(ogidstr);
     this.setButtonEnabled(this.donebtn, false);
     this.board.showBoard(this.ogid);
+    this.showThumbBoard(this.ogid, this.player);
     this.swapChequerDraggable(true);
   }
 
@@ -124,10 +125,8 @@ class OtokogiGammon {
     if (!this.ogid.moveFinished()) { return; } //動かし終わっていなければ
     if (this.gamefinished) { return; } //ゲームが終わっていれば
     this.ogid.dice = "00";
-    const ogidstr = this.ogid.get_ogidstr();
-    this.otokogiID[this.player] = ogidstr;
-    const thumbboard = this.board.makeThumbBoard(new Ogid(ogidstr));;
-    $("#thumbnail" + this.player).html(thumbboard).removeClass("current");
+    this.otokogiID[this.player] = this.ogid.get_ogidstr();
+    $("#thumbboard" + this.player).removeClass("current");
 
     this.player = this.nextPlayer();
     this.beginNewGame();
@@ -144,7 +143,7 @@ class OtokogiGammon {
     setTimeout(() => { //待ってアニメーションを止める
       this.youwin.removeClass(animClass);
       defer.resolve();
-    }, this.animDelay * 2);
+    }, this.animDelay2);
 
     return defer.promise();
   }
@@ -160,12 +159,12 @@ class OtokogiGammon {
   }
 
   showSettingPanelAction() {
-    this.settings.slideToggle("normal");
+    this.settings.slideDown(); //設定画面を表示
     this.setButtonEnabled(this.settingbtn, false);
   }
 
   applySettingPanelAction() {
-    this.settings.slideToggle("normal"); //設定画面を消す
+    this.settings.slideUp(); //設定画面を消す
     this.setButtonEnabled(this.cancelbtn, true);
     this.setButtonEnabled(this.settingbtn, true);
     this.playernum = parseInt($("#players").val());
@@ -174,7 +173,7 @@ class OtokogiGammon {
   }
 
   cancelSettingPanelAction() {
-    this.settings.slideToggle("normal"); //設定画面を消す
+    this.settings.slideUp(); //設定画面を消す
     this.setButtonEnabled(this.settingbtn, true);
   }
 
@@ -212,6 +211,11 @@ class OtokogiGammon {
 
   getCurrPosition() {
     return this.undoStack;
+  }
+
+  showThumbBoard(ogid, player) {
+    const thumbboard = this.board.makeThumbBoard(ogid);
+    $("#thumbboard" + player).html(thumbboard);
   }
 
   setChequerDraggable() {
@@ -310,6 +314,7 @@ class OtokogiGammon {
     if (ok) {
       this.ogid = this.ogid.moveChequer(this.dragStartPt, this.dragEndPt);
       this.board.showBoard(this.ogid);
+      this.showThumbBoard(this.ogid, this.player);
     } else {
       this.dragObject.animate(this.dragStartPos, 300); //元の位置に戻す
     }
@@ -371,5 +376,10 @@ class OtokogiGammon {
     }
   }
 
+  //UserAgentを確認し、iOSか否かを判断する
+  isIOS() {
+    const ua = window.navigator.userAgent.toLowerCase();
+    return (ua.indexOf('iphone') !== -1 || ua.indexOf('ipod') !== -1 || ua.indexOf('ipad') !== -1);
+  }
 
 } //end of class OtokogiGammon

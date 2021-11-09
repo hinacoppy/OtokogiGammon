@@ -18,14 +18,14 @@
 <body>
 <article id="container" class="container8">
 <section id="board" class="board"></section>
-<section id="thumbnail0" class="thumbboard"></section>
-<section id="thumbnail1" class="thumbboard"></section>
-<section id="thumbnail2" class="thumbboard"></section>
-<section id="thumbnail3" class="thumbboard"></section>
-<section id="thumbnail4" class="thumbboard"></section>
-<section id="thumbnail5" class="thumbboard"></section>
-<section id="thumbnail6" class="thumbboard"></section>
-<section id="thumbnail7" class="thumbboard"></section>
+<section id="thumbboard0" class="thumbboard"></section>
+<section id="thumbboard1" class="thumbboard"></section>
+<section id="thumbboard2" class="thumbboard"></section>
+<section id="thumbboard3" class="thumbboard"></section>
+<section id="thumbboard4" class="thumbboard"></section>
+<section id="thumbboard5" class="thumbboard"></section>
+<section id="thumbboard6" class="thumbboard"></section>
+<section id="thumbboard7" class="thumbboard"></section>
 </article>
 
 <button id="rollbtn" class="oparationbtn"><i class="fas fa-dice"></i> 振賽</button>
@@ -63,16 +63,16 @@
 <script src="/js/fontawesome-all.min.js" defer></script>
 <script src="/js/jquery-3.6.0.min.js"></script>
 <script src="/js/inobounce.min.js"></script>
-<script src="/js/BgUtil_class.js"></script>
 <script src="js/Ogid_class.js"></script>
 <script src="js/OtokogiChequer_class.js"></script>
 <script src="js/OtokogiBoard_class.js"></script>
 <script src="js/OtokogiGame_class.js"></script>
 <script>
-if (BgUtil.isIOS()) {
+var otokogi = new OtokogiGammon(0); //default players
+
+if (otokogi.isIOS()) {
   iNoBounce.enable();
 }
-var otokogi = new OtokogiGammon(0); //default players
 </script>
 <script src="/js/start-serviceWorker.js"></script>
 </body>
