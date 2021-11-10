@@ -2,8 +2,9 @@
 'use strict';
 
 class OtokogiBoard {
-  constructor(ogidstr = "OGID=-------:00:0") {
-    this.ogid = new Ogid(ogidstr);
+  constructor() {
+    this.pointmax = 6;
+    this.ogid = new Ogid();
     this.mainBoard = $('#board'); //need to define before bgBoardConfig()
     this.bgBoardConfig();
     this.prepareSvgDice();
@@ -54,6 +55,16 @@ class OtokogiBoard {
     this.svgDice[6] += '<circle cx="132" cy="90" r="8" stroke-width="18"/>';
     this.svgDice[6] += '<circle cx="132" cy="132" r="8" stroke-width="18"/>';
     this.svgDice[6] += '</svg>';
+    this.svgDice[7]  = '<svg class="dice-six" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">';
+    this.svgDice[7] += '<rect x="7" y="7" rx="30" width="166" height="166" stroke-width="1"/>';
+    this.svgDice[7] += '<circle cx="65" cy="48" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '<circle cx="65" cy="132" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '<circle cx="40" cy="90" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '<circle cx="90" cy="90" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '<circle cx="115" cy="48" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '<circle cx="140" cy="90" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '<circle cx="115" cy="132" r="8" stroke-width="18"/>';
+    this.svgDice[7] += '</svg>';
   }
 
   setDomNameAndStyle() {
@@ -68,7 +79,7 @@ class OtokogiBoard {
     //point triangles
     this.point = [];
     const pointColorClass = ["pt_dnev", "pt_dnod"];
-    for (let p = 1; p <= 6; p++) {
+    for (let p = 1; p <= this.pointmax; p++) {
       const colfig = (p % 2); //0=under+even, 1=under+odd
       const xh = '<div id="pt' + p + '" class="point ' + pointColorClass[colfig] + '"></div>';
       this.mainBoard.append(xh);
@@ -110,14 +121,14 @@ class OtokogiBoard {
 
     //point triangles
     const pointColorClass = ["pt_dnev", "pt_dnod"];
-    for (let p = 1; p <= 6; p++) {
+    for (let p = 1; p <= this.pointmax; p++) {
       const colfig = (p % 2); //0=under+even, 1=under+odd
       const style = this.obj2style(this.getPosObjBottom(this.thumbPointX[p], this.pointY));
       xh += '<div class="thumbpoint ' + pointColorClass[colfig] + '" style="' + style + '"></div>';
     }
 
     //Chequer
-    for (let pt = 0; pt <= 6; pt++) {
+    for (let pt = 0; pt <= this.pointmax; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
         const ex = this.thumbPointX[pt] + (pt == 0 ? this.thumbOfftrayMargin : 0);
@@ -154,7 +165,7 @@ class OtokogiBoard {
 
   showPosition(ogid) {
     let checkerid = 0;
-    for (let pt = 0; pt <= 6; pt++) {
+    for (let pt = 0; pt <= this.pointmax; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
         const ex = this.pointX[pt] + (pt == 0 ? this.offtrayMargin : 0);
@@ -206,15 +217,16 @@ class OtokogiBoard {
     this.thumbBoardHeight = $("#thumbboard0").height();
     this.thumbBoardWidth  = $("#thumbboard0").width();
 
-    this.pointWidth = this.mainBoardWidth * 0.99 / 7; //ポイントの幅を計算
-    this.pieceWidth = window.innerWidth *  (boardWidth8Num / 100) / 7; //チェッカーは大きさを変えない
+    const ptnum = this.pointmax + 1;
+    this.pointWidth = this.mainBoardWidth * 0.99 / ptnum; //ポイントの幅を計算
+    this.pieceWidth = window.innerWidth *  (boardWidth8Num / 100) / ptnum; //チェッカーは大きさを変えない
     this.pieceHeight = this.pieceWidth;
     this.boffHeight = this.pieceWidth * 0.4;  //ベアオフの駒は立てたように表示
     this.offtrayMargin = offtrayMarginNum;
     this.thumbOfftrayMargin = 2;
     this.offY = 0;
 
-    this.thumbPointWidth = this.thumbBoardWidth * 0.99 / 7;
+    this.thumbPointWidth = this.thumbBoardWidth * 0.99 / ptnum;
     this.thumbPieceWidth = this.thumbPointWidth;
     this.thumbPieceHeight = this.thumbPieceWidth;
     this.thumbBoffHeight = this.thumbPieceWidth * 0.4;
@@ -222,8 +234,8 @@ class OtokogiBoard {
     this.pointY = 0;
     this.pointX = [];
     this.thumbPointX = [];
-    for (let p = 0; p <= 6; p++) {
-      const px = 6 - p;
+    for (let p = 0; p <= this.pointmax; p++) {
+      const px = this.pointmax - p;
       this.pointX[p]      = px * this.pointWidth;
       this.thumbPointX[p] = px * this.thumbPointWidth;
     }
@@ -256,7 +268,7 @@ class OtokogiBoard {
 
   getDragEndPoint(pos) {
     const px = Math.floor(pos.left / this.pointWidth + 0.5);
-    const pt = 6 - px;
+    const pt = this.pointmax - px;
     return pt;
   }
 
@@ -290,7 +302,7 @@ class OtokogiBoard {
     //offtray
     this.offtray.css(this.getPosObjBottom(this.pointX[0], this.offY));
     //point triangles
-    for (let p = 1; p <= 6; p++) {
+    for (let p = 1; p <= this.pointmax; p++) {
       this.point[p].css(this.getPosObjBottom(this.pointX[p], this.pointY));
     }
     //dice

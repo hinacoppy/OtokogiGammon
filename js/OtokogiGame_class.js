@@ -3,6 +3,7 @@
 
 class OtokogiGammon {
   constructor(playernum = 0) {
+    this.pointmax = 6;
     this.playernum = playernum;
     this.board = new OtokogiBoard();
     this.ogid = null;
@@ -72,7 +73,7 @@ class OtokogiGammon {
   initGameOption() {
     this.board.shuffleColor(); //色をシャッフル
     for (let n = 0; n < 8; n++) {
-      this.otokogiID[n] = "OGID=------D:00:" + n;
+      this.otokogiID[n] = "OGID=" + "-".repeat(this.pointmax) + "D:00:" + n;
       this.showThumbBoard(new Ogid(this.otokogiID[n]), n);
       $("#thumbboard" + n).removeClass("current").toggle(n < this.playernum); //togge=show/hide
     }
@@ -182,9 +183,9 @@ class OtokogiGammon {
   }
 
   randomdice() {
-    const random6 = (() => Math.floor( Math.random() * 6 ) + 1);
-    const d1 = random6();
-    const d2 = random6();
+    const random = (() => Math.floor( Math.random() * this.pointmax ) + 1);
+    const d1 = random();
+    const d2 = random();
     const dicestr = String(d1) + String(d2);
     return dicestr;
   }

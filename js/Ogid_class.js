@@ -2,11 +2,12 @@
 'use strict';
 
 class Ogid {
-  constructor(ogidstr = "OGID=-------:00:0") {
-    this._ogid = ogidstr;
-    this._position = "-------";
-    this._player = 0;
+  constructor(ogidstr) {
+    this.pointmax = 6;
+    this._position = "-".repeat(this.pointmax + 1);
     this._dice = "00";
+    this._player = 0;
+    this._ogid = ogidstr ? ogidstr : this._makeogidStr();
     this._ptno = [];
     this._movablelist = [];
 
@@ -43,7 +44,7 @@ class Ogid {
   _parse_position(pt) {
     //ポジション情報をパースし状態をローカル変数に格納
     const posary = pt.split("");  // 一文字ずつに分解
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= this.pointmax; i++) {
       const asc = posary[i].charCodeAt(0);
       if (asc == "-".charCodeAt(0)) {
         this._ptno[i] = 0;
@@ -54,7 +55,7 @@ class Ogid {
   }
 
   _makeogidStr() {
-    this._ogid = "OGID=" + this._position + ":" + this._dice + ":" + this._player;
+    return "OGID=" + this._position + ":" + this._dice + ":" + this._player;
   }
 
   // getter functions
@@ -65,9 +66,9 @@ class Ogid {
   get_ptno(x)    { return this._ptno[x]; }
 
   //setter method
-  set position(x) { this._position = x; this._makeogidStr(); this._parse_position(x); }
-  set player(x)   { this._player = x;   this._makeogidStr(); }
-  set dice(x)     { this._set_dice(x);  this._makeogidStr(); }
+  set position(x) { this._position = x; this._ogid = this._makeogidStr(); this._parse_position(x); }
+  set player(x)   { this._player = x;   this._ogid = this._makeogidStr(); }
+  set dice(x)     { this._set_dice(x);  this._ogid = this._makeogidStr(); }
 
   //getter method
   get ogidstr()  { return this._ogid; }
@@ -128,7 +129,7 @@ class Ogid {
     this._topt = ((f, d) => (f - d < 0) ? 0 : (f - d));
     this._movablelist = [];
     const piplist = this._makeDicePipList();
-    for (let fr = 1; fr <= 6; fr++) {
+    for (let fr = 1; fr <= this.pointmax; fr++) {
       if (!this.existMyChequer(fr)) { continue; }
 
       let piplistidx = 0;
@@ -161,7 +162,7 @@ class Ogid {
   }
 
   _existBacker(f) {
-    for (let q = f+1; q <= 6; q++) {
+    for (let q = f+1; q <= this.pointmax; q++) {
       if (this.existMyChequer(q)) { return true; }
     }
     return false;
@@ -180,7 +181,7 @@ class Ogid {
 
   moveFinished() {
     if (this._usable_dice.length == 0) { return true; } //使える目がなくなった時
-    for (let q = 1; q <= 6; q++) {
+    for (let q = 1; q <= this.pointmax; q++) {
       if (!this.existMyChequer(q)) { continue; } //自駒のある所から
       const movlist = this.movablePoint(q, true); //動かせる先がまだあれば false
       if (movlist.length != 0) { return false; }

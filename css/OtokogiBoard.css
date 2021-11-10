@@ -7,11 +7,13 @@
   --boardWidthNum:70;
   --boardWidth4Num:85; /* grid-template-columns の値に合わせる */
   --boardWidth8Num:70;
-  --pointWidthNum:9.6;
+  --pointWidthNum:9.6; /* Otokogi6 */
+/*  --pointWidthNum:8.6; /* Otokogi7 */
   --offtrayMarginNum:7; /* .offtrayのborderの -1 がちょうどよい */
   --thumbBoardHeightNum:100;
   --thumbBoardWidthNum:100;
-  --thumbPointWidthNum:14;
+  --thumbPointWidthNum:14; /* Otokogi6 */
+/*  --thumbPointWidthNum:12; /* Otokogi7 */
 
   --point-width:calc(var(--pointWidthNum) * 1vw);
   --point-height:calc(var(--boardHeightNum) * 1vh * 0.7);
