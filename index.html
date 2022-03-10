@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <meta name="description" content="Otokogi Gammon App">
-<meta name="author" content="(C)hinacoppy 2021">
+<meta name="author" content="(C)hinacoppy 2021- 2022">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="css/OtokogiGame.css">
 <link rel="stylesheet" href="css/OtokogiBoard.css">
@@ -16,7 +16,7 @@
 <title>OtokogiGammon</title>
 </head>
 <body>
-<article id="container" class="container8">
+<article id="container" class="container container4 pointmax6">
 <section id="board" class="board"></section>
 <section id="thumbboard0" class="thumbboard"></section>
 <section id="thumbboard1" class="thumbboard"></section>
@@ -52,6 +52,13 @@
 <option value="7">7</option>
 <option value="8">8</option>
 </select>
+&emsp; &emsp;
+ポイント数: &nbsp;
+<select id="points" name="points">
+<option value="5">5</option>
+<option value="6" selected>6</option>
+<option value="7">7</option>
+</select>
 </p>
 <p>
 <button id="applybtn" class="oparationbtn"><i class="fas fa-check"></i> 適用</button>&emsp; &emsp;
@@ -68,7 +75,7 @@
 <script src="js/OtokogiBoard_class.js"></script>
 <script src="js/OtokogiGame_class.js"></script>
 <script>
-var otokogi = new OtokogiGammon(0); //default players
+var otokogi = new OtokogiGammon(0, 6); //default players, num of points
 
 if (otokogi.isIOS()) {
   iNoBounce.enable();

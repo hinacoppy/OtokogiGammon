@@ -2,16 +2,11 @@
 'use strict';
 
 class Ogid {
-  constructor(ogidstr) {
-    this.pointmax = 6;
-    this._position = "-".repeat(this.pointmax + 1);
-    this._dice = "00";
-    this._player = 0;
-    this._ogid = ogidstr ? ogidstr : this._makeogidStr();
-    this._ptno = [];
-    this._movablelist = [];
-
-    this._parse_ogid(this._ogid); // ogidを解析
+  constructor(ogidstr = "OGID=-------:00:0") {
+    this._ogid = ogidstr;
+    this._parse_ogid(ogidstr);
+    this.pointmax = this._position.length - 1;
+    this._parse_position(this._position); // ボード状態を解析
   }
 
   // ogidをパースし状態をローカル変数に格納
@@ -42,6 +37,7 @@ class Ogid {
   }
 
   _parse_position(pt) {
+    this._ptno = [];
     //ポジション情報をパースし状態をローカル変数に格納
     const posary = pt.split("");  // 一文字ずつに分解
     for (let i = 0; i <= this.pointmax; i++) {

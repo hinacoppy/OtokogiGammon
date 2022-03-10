@@ -2,10 +2,10 @@
 'use strict';
 
 class OtokogiGammon {
-  constructor(playernum = 0) {
-    this.pointmax = 6;
+  constructor(playernum = 0, pointmax = 6) {
+    this.pointmax = pointmax;
     this.playernum = playernum;
-    this.board = new OtokogiBoard();
+    this.board = new OtokogiBoard(this.pointmax);
     this.ogid = null;
     this.player = 0;
     this.otokogiID = [];
@@ -67,15 +67,20 @@ class OtokogiGammon {
     this.applybtn.      on(clickEventType, (e) => { e.preventDefault(); this.applySettingPanelAction(); });
     this.cancelbtn.     on(clickEventType, (e) => { e.preventDefault(); this.cancelSettingPanelAction(); });
     this.pointTriangle. on('touchstart mousedown', (e) => { e.preventDefault(); this.pointTouchStartAction(e); });
-    $(window).          on('resize',       (e) => { e.preventDefault(); this.board.redraw(); }); 
+    $(window).          on('resize',       (e) => { e.preventDefault(); this.redraw(); }); 
   }
 
   initGameOption() {
-    this.board.shuffleColor(); //色をシャッフル
-    for (let n = 0; n < 8; n++) {
-      this.otokogiID[n] = "OGID=" + "-".repeat(this.pointmax) + "D:00:" + n;
-      this.showThumbBoard(new Ogid(this.otokogiID[n]), n);
-      $("#thumbboard" + n).removeClass("current").toggle(n < this.playernum); //togge=show/hide
+    switch(this.pointmax) {
+      case 5:
+        this.container.removeClass("pointmax6 pointmax7").addClass("pointmax5");
+        break;
+      case 7:
+        this.container.removeClass("pointmax5 pointmax6").addClass("pointmax7");
+        break;
+      default:
+        this.container.removeClass("pointmax5 pointmax7").addClass("pointmax6");
+        break;
     }
 
     if (this.playernum <= 4) {
@@ -85,8 +90,12 @@ class OtokogiGammon {
     }
 
     this.player = 0;
-    this.board.redraw();
     this.setPanelPosition();
+    this.board.shuffleColor(); //色をシャッフル
+    for (let player = 0; player < 8; player++) {
+      this.otokogiID[player] = "OGID=" + "-".repeat(this.pointmax) + "D:00:" + player;
+    }
+    this.redraw();
   }
 
   beginNewGame() {
@@ -169,6 +178,7 @@ class OtokogiGammon {
     this.setButtonEnabled(this.cancelbtn, true);
     this.setButtonEnabled(this.settingbtn, true);
     this.playernum = parseInt($("#players").val());
+    this.pointmax = parseInt($("#points").val());
     this.initGameOption();
     this.beginNewGame();
   }
@@ -217,6 +227,16 @@ class OtokogiGammon {
   showThumbBoard(ogid, player) {
     const thumbboard = this.board.makeThumbBoard(ogid);
     $("#thumbboard" + player).html(thumbboard);
+  }
+
+  redraw() {
+    this.board.redraw(this.pointmax);
+    for (let player = 0; player < 8; player++) {
+      const thumbboard = this.board.makeThumbBoard(new Ogid(this.otokogiID[player]));
+      $("#thumbboard" + player).html(thumbboard)
+                               .toggleClass("current", player == this.player) //add/delete class
+                               .toggle(player < this.playernum); //togge=show/hide
+    }
   }
 
   setChequerDraggable() {

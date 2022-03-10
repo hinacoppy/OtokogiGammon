@@ -2,8 +2,8 @@
 'use strict';
 
 class OtokogiBoard {
-  constructor() {
-    this.pointmax = 6;
+  constructor(pointmax = 6) {
+    this.pointmax = pointmax;
     this.ogid = new Ogid();
     this.mainBoard = $('#board'); //need to define before bgBoardConfig()
     this.bgBoardConfig();
@@ -79,7 +79,7 @@ class OtokogiBoard {
     //point triangles
     this.point = [];
     const pointColorClass = ["pt_dnev", "pt_dnod"];
-    for (let p = 1; p <= this.pointmax; p++) {
+    for (let p = 1; p <= 7; p++) { //ポイントは7つ用意しておく
       const colfig = (p % 2); //0=under+even, 1=under+odd
       const xh = '<div id="pt' + p + '" class="point ' + pointColorClass[colfig] + '"></div>';
       this.mainBoard.append(xh);
@@ -87,6 +87,7 @@ class OtokogiBoard {
       this.point[p].css(this.getPosObjBottom(this.pointX[p], this.pointY));
     }
     this.pointAll = $(".point");
+    this.point[7].hide(); //7ポイントは最初は非表示
 
     //dice
     xh  = '<div id="dice1" class="dice"></div>';
@@ -204,7 +205,7 @@ class OtokogiBoard {
 
   bgBoardConfig() {
     //CSSで定義された数値情報を取得
-    const style = getComputedStyle(document.documentElement);
+    const style = getComputedStyle(document.getElementById('container'));
     const boardWidth4Num   = parseFloat(style.getPropertyValue('--boardWidth4Num'));
     const boardWidth8Num   = parseFloat(style.getPropertyValue('--boardWidth8Num'));
     const offtrayMarginNum = parseFloat(style.getPropertyValue('--offtrayMarginNum'));
@@ -219,9 +220,9 @@ class OtokogiBoard {
 
     const ptnum = this.pointmax + 1;
     this.pointWidth = this.mainBoardWidth * 0.99 / ptnum; //ポイントの幅を計算
-    this.pieceWidth = window.innerWidth *  (boardWidth8Num / 100) / ptnum; //チェッカーは大きさを変えない
+    this.pieceWidth = window.innerWidth * (boardWidth8Num / 100) / ptnum; //チェッカーは大きさを変えない
     this.pieceHeight = this.pieceWidth;
-    this.boffHeight = this.pieceWidth * 0.4;  //ベアオフの駒は立てたように表示
+    this.boffHeight = this.pieceWidth * 0.4; //ベアオフの駒は立てたように表示
     this.offtrayMargin = offtrayMarginNum;
     this.thumbOfftrayMargin = 2;
     this.offY = 0;
@@ -244,7 +245,7 @@ class OtokogiBoard {
 
     this.diceY = this.mainBoardHeight * 0.15;
     this.dice1X = this.pointX[2];
-    this.dice2X = this.pointX[4];
+    this.dice2X = (this.pointmax == 5) ? this.pointX[3] : this.pointX[4];
   }
 
   getPosObjTop(x, y) {
@@ -296,14 +297,18 @@ class OtokogiBoard {
     this.offtray.removeClass("flash");
   }
 
-  redraw() {
+  redraw(pointmax) {
+    this.pointmax = pointmax;
     this.bgBoardConfig();
 
     //offtray
     this.offtray.css(this.getPosObjBottom(this.pointX[0], this.offY));
     //point triangles
     for (let p = 1; p <= this.pointmax; p++) {
-      this.point[p].css(this.getPosObjBottom(this.pointX[p], this.pointY));
+      this.point[p].show().css(this.getPosObjBottom(this.pointX[p], this.pointY));
+    }
+    for (let p = this.pointmax + 1; p <= 7; p++) {
+      this.point[p].hide();
     }
     //dice
     this.dice1.css(this.getPosObjTop(this.dice1X, this.diceY));
