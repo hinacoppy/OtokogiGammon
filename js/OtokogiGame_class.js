@@ -201,8 +201,10 @@ class OtokogiGammon {
   }
 
   calcDrawPosition(pos, elem) {
-    const p_width = (pos == 'B') ? this.boardpanel.width() : window.innerWidth;
-    const p_height = (pos == 'B') ? this.boardpanel.height() : window.innerHeight;
+    const w_width = Math.max(window.innerWidth, window.innerHeight);
+    const w_height = Math.min(window.innerWidth, window.innerHeight);
+    const p_width = (pos == 'B') ? this.boardpanel.width() : w_width;
+    const p_height = (pos == 'B') ? this.boardpanel.height() : w_height;
     const wx = (p_width - elem.outerWidth(true)) / 2;
     const wy = (p_height - elem.outerHeight(true)) / 2;
     return {left:wx, top:wy};
@@ -367,7 +369,7 @@ class OtokogiGammon {
 
   pointTouchStartAction(origevt) {
     const id = origevt.currentTarget.id;
-    const pt = parseInt(id.substr(2));
+    const pt = parseInt(id.substring(2));
     const chker = this.board.getChequerOnDragging(pt);
     const evttypeflg = (origevt.type === "mousedown")
     const event = (evttypeflg) ? origevt : origevt.changedTouches[0];
