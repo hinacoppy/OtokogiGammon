@@ -201,13 +201,19 @@ class OtokogiGammon {
   }
 
   calcDrawPosition(pos, elem) {
-    const w_width = Math.max(window.innerWidth, window.innerHeight);
-    const w_height = Math.min(window.innerWidth, window.innerHeight);
+    const w_width = this.isLandscape() ? window.innerHeight : window.innerWidth;
+    const w_height = this.isLandscape() ? window.innerWidth : window.innerHeight;
+console.log("calcDrawPosition", this.isLandscape() , w_width, w_height, window.innerHeight , window.innerWidth); 
     const p_width = (pos == 'B') ? this.boardpanel.width() : w_width;
     const p_height = (pos == 'B') ? this.boardpanel.height() : w_height;
     const wx = (p_width - elem.outerWidth(true)) / 2;
     const wy = (p_height - elem.outerHeight(true)) / 2;
     return {left:wx, top:wy};
+  }
+
+  isLandscape() {
+console.log("isLandscape", this.isIOS() , window.orientation); 
+    return (this.isIOS() && Math.abs(window.orientation) === 90); //iOSで横向きのとき
   }
 
   clearCurrPosition() {
@@ -232,6 +238,7 @@ class OtokogiGammon {
   }
 
   redraw() {
+    this.setPanelPosition();
     this.board.redraw(this.pointmax);
     for (let player = 0; player < 8; player++) {
       const thumbboard = this.board.makeThumbBoard(new Ogid(this.otokogiID[player]));
