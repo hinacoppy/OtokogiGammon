@@ -240,11 +240,6 @@ class OtokogiGammon {
     }
   }
 
-  setFillHeight() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }
-
   setChequerDraggable() {
     //関数内広域変数
     var x;//要素内のクリックされた位置
