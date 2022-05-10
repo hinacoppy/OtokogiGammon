@@ -201,8 +201,8 @@ class OtokogiGammon {
   }
 
   calcDrawPosition(pos, elem) {
-    const w_width = this.isLandscape() ? window.innerHeight : window.innerWidth;
-    const w_height = this.isLandscape() ? window.innerWidth : window.innerHeight;
+    const w_width = /* this.isLandscape() ? window.innerHeight :*/ window.innerWidth;
+    const w_height = /* this.isLandscape() ? window.innerWidth :*/ window.innerHeight;
 console.log("calcDrawPosition", this.isLandscape() , w_width, w_height, window.innerHeight , window.innerWidth); 
     const p_width = (pos == 'B') ? this.boardpanel.width() : w_width;
     const p_height = (pos == 'B') ? this.boardpanel.height() : w_height;
