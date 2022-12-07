@@ -330,9 +330,18 @@ class OtokogiGammon {
 
   dragStopAction(event, ui) {
     this.flashOffMovablePoint();
-    this.dragEndPt = this.board.getDragEndPoint(ui.position);
+    const dragendpt = this.board.getDragEndPoint(ui.position);
 
-    const ok = this.ogid.isMovable(this.dragStartPt, this.dragEndPt);
+    //ドロップされた位置が前後 1pt の範囲であれば OK とする。せっかちな操作に対応
+    const ok0 = this.ogid.isMovable(this.dragStartPt, dragendpt);
+    const ok1 = this.ogid.isMovable(this.dragStartPt, dragendpt + 1);
+    const ok2 = this.ogid.isMovable(this.dragStartPt, dragendpt - 1);
+    const ok = ok0 || ok1 || ok2;
+
+    if      (ok0) { this.dragEndPt = dragendpt;     }
+    else if (ok1) { this.dragEndPt = dragendpt + 1; } //より進まない方を優先
+    else if (ok2) { this.dragEndPt = dragendpt - 1; } //ex.24の目で3にドロップしたときは2に進む
+
     if (ok) {
       this.ogid = this.ogid.moveChequer(this.dragStartPt, this.dragEndPt);
       this.board.showBoard(this.ogid);
