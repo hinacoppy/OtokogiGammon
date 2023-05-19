@@ -125,6 +125,7 @@ class OtokogiGammon {
     if (this.isEmptyCurrPosition()) { return; }
     const ogidstr = this.getCurrPosition();
     this.ogid = new Ogid(ogidstr);
+    this.makeDiceList(this.ogid.dice);
     this.setButtonEnabled(this.donebtn, false);
     this.board.showBoard(this.ogid);
     this.showThumbBoard(this.ogid, this.player);
@@ -197,7 +198,16 @@ class OtokogiGammon {
     const d1 = random();
     const d2 = random();
     const dicestr = String(d1) + String(d2);
+    this.makeDiceList(dicestr);
     return dicestr;
+  }
+
+  makeDiceList(dice) {
+    const dice1 = Number(dice.slice(0, 1));
+    const dice2 = Number(dice.slice(1, 2));
+    if      (dice1 == dice2) { this.dicelist = [dice1, dice1, dice1, dice1]; }
+    else if (dice1 <  dice2) { this.dicelist = [dice2, dice1]; } //大きい順
+    else                     { this.dicelist = [dice1, dice2]; }
   }
 
   calcDrawPosition(pos, elem) {
@@ -328,19 +338,55 @@ class OtokogiGammon {
     this.flashOnMovablePoint(this.dragStartPt);
   }
 
+  checkDragEndPt(xg, dragstartpt, dragendpt) {
+    let endpt = dragendpt;
+    let ok = false;
+
+    if (dragstartpt == dragendpt) {
+      //同じ位置にドロップ(＝クリック)したときは、ダイスの目を使ったマスに動かす
+      //known bug:目を余らせて動かしたときに、次のコマがクリックで動かせないことがある
+      //ex. ベアオフで、54の目で4ptを先にクリックでベアオフすると、5ptのコマはクリックでベアオフできない
+      for (let i = 0; i < this.dicelist.length; i++) {
+        const endptwk = Math.max(dragstartpt - this.dicelist[i], 0);
+        if (xg.isMovable(dragstartpt, endptwk)) {
+          this.dicelist.splice(i, 1);
+          endpt = endptwk;
+          ok = true;
+          break;
+        }
+      }
+    } else {
+      if (true) {
+        //ドロップされた位置が前後 1pt の範囲であれば OK とする。せっかちな操作に対応
+        const ok0 = xg.isMovable(dragstartpt, dragendpt);
+        const ok1 = xg.isMovable(dragstartpt, dragendpt + 1);
+        const ok2 = xg.isMovable(dragstartpt, dragendpt - 1);
+        if      (ok0)         { endpt = dragendpt;     ok = true; } //ちょうどの目にドロップ
+        else if (ok1 && !ok2) { endpt = dragendpt + 1; ok = true; } //前後が移動可能な時は進めない
+        else if (ok2 && !ok1) { endpt = dragendpt - 1; ok = true; } //ex.24の目で3にドロップしたときは進めない
+      } else {
+        //イリーガルムーブを許可したとき
+        endpt = dragendpt;
+        ok = true;
+      }
+      //D&Dで動かした後クリックで動かせるようにダイスリストを調整しておく
+      //known bug:ダイス組み合わせの位置に動かしたときは、次のクリックムーブが正しく動かないことがある
+      for (let i = 0; i < this.dicelist.length; i++) {
+        if (this.dicelist[i] == (dragstartpt - endpt)) {
+          this.dicelist.splice(i, 1);
+          break;
+        }
+      }
+    }
+    return [endpt, ok];
+  }
+
   dragStopAction(event, ui) {
     this.flashOffMovablePoint();
     const dragendpt = this.board.getDragEndPoint(ui.position);
 
-    //ドロップされた位置が前後 1pt の範囲であれば OK とする。せっかちな操作に対応
-    const ok0 = this.ogid.isMovable(this.dragStartPt, dragendpt);
-    const ok1 = this.ogid.isMovable(this.dragStartPt, dragendpt + 1);
-    const ok2 = this.ogid.isMovable(this.dragStartPt, dragendpt - 1);
-    let ok = false;
-
-    if      (ok0)         { this.dragEndPt = dragendpt;     ok = true; }
-    else if (ok1 && !ok2) { this.dragEndPt = dragendpt + 1; ok = true; } //前後が移動可能な時は進めない
-    else if (ok2 && !ok1) { this.dragEndPt = dragendpt - 1; ok = true; } //ex.24の目で3にドロップしたときは進めない
+    let ok;
+    [this.dragEndPt, ok] = this.checkDragEndPt(this.ogid, this.dragStartPt, dragendpt);
 
     if (ok) {
       this.ogid = this.ogid.moveChequer(this.dragStartPt, this.dragEndPt);

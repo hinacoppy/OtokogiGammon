@@ -2,7 +2,7 @@
 // (参考) https://developer.mozilla.org/ja/docs/Web/Progressive_web_apps/Offline_Service_workers
 'use strict';
 
-const cacheName = 'OtokogiGammon-v20221209';
+const cacheName = 'OtokogiGammon-v20230519';
 const ORIGIN = (location.hostname == 'localhost') ? '' : location.protocol + '//' + location.hostname;
 
 const contentToCache = [
