@@ -261,6 +261,7 @@ class OtokogiGammon {
 
     //ドラッグ開始時のコールバック関数
     const evfn_dragstart = ((origevt) => {
+      origevt.preventDefault();
       dragobj = origevt.currentTarget; //dragする要素を取得し、広域変数に格納
       if (!dragobj.classList.contains("draggable")) { return; } //draggableでないオブジェクトは無視
 
@@ -304,6 +305,7 @@ class OtokogiGammon {
 
     //ドラッグ終了時のコールバック関数
     const evfn_dragend = ((origevt) => {
+      origevt.preventDefault();
       dragobj.classList.remove("dragging"); //drag中フラグを削除
       dragobj.style.zIndex = zidx;
 
