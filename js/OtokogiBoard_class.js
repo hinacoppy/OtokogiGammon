@@ -210,8 +210,12 @@ class OtokogiBoard {
     const boardWidth8Num   = parseFloat(style.getPropertyValue('--boardWidth8Num'));
     const offtrayMarginNum = parseFloat(style.getPropertyValue('--offtrayMarginNum'));
 
+    //画面(Viewport)の縦横巾を取得
+    const viewportwidth  = Math.max(window.innerWidth, window.innerHeight); //横＝長いほう
+    const viewportheight = Math.min(window.innerWidth, window.innerHeight); //縦＝短いほう
+
     //ボード表示のための位置と大きさの定数を計算
-    this.mainBoardHeight = this.mainBoard.height(); //使わない
+    this.mainBoardHeight = this.mainBoard.height();
     this.mainBoardWidth  = this.mainBoard.width();
 
     //サムネイルボードの大きさの定数を計算
@@ -220,7 +224,7 @@ class OtokogiBoard {
 
     const ptnum = this.pointmax + 1;
     this.pointWidth = this.mainBoardWidth * 0.99 / ptnum; //ポイントの幅を計算
-    this.pieceWidth = window.innerWidth * (boardWidth8Num / 100) / ptnum; //チェッカーは大きさを変えない
+    this.pieceWidth = viewportwidth * (boardWidth8Num / 100) / ptnum; //チェッカーは8人用に固定
     this.pieceHeight = this.pieceWidth;
     this.boffHeight = this.pieceWidth * 0.4; //ベアオフの駒は立てたように表示
     this.offtrayMargin = offtrayMarginNum;

@@ -5,7 +5,8 @@ class Chequer {
   constructor(idx) {
     this._idx = idx;
     this._domid = "pw" + idx;
-    this._domhtml = '<div id="' + this._domid + '" class="chequer turncolor"></div>';
+    const domdiv = '<div id="' + this._domid + '" class="chequer turncolor"></div>';
+    this._domhtml = '<div class="border">' + domdiv + '</div>';
     this._dom = null;
     this._point = 0;
   }

@@ -1,5 +1,5 @@
 /* OtokogiBoard.css ----------------------------------------------- */
-/* Designed by hinacoppy 2021 ------------------------------------- */
+/* Designed by hinacoppy 2021-2024 -------------------------------- */
 
 /* bgboard decoration ---------------------------------------- */
 .container{
@@ -11,10 +11,10 @@
   --thumbBoardHeightNum:100;
   --thumbBoardWidthNum:100;
 
-  --point-width:calc(var(--pointWidthNum) * 1vw);
-  --point-height:calc(var(--boardHeightNum) * 1vh * 0.7);
-  --thumb-point-width:calc(var(--thumbPointWidthNum) * 1vw * 0.15);
-  --thumb-point-height:calc(var(--thumbBoardHeightNum) * 1vh * 0.15);
+  --point-width:calc(var(--pointWidthNum) * 1dvmax);
+  --point-height:calc(var(--boardHeightNum) * 1dvmin * 0.7);
+  --thumb-point-width:calc(var(--thumbPointWidthNum) * 1dvmax * 0.15);
+  --thumb-point-height:calc(var(--thumbBoardHeightNum) * 1dvmin * 0.15);
 }
 /* Point num depend settings ---------------------- */
 .pointmax5{
@@ -65,13 +65,13 @@
   position:absolute;
   width:var(--point-width);
   height:var(--point-width);
-  border-radius:50%;
-  border:2px solid gray;
-  background-image:linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
-  box-shadow:0  2px  2px 0 rgba(255,255,255, .1) inset,
-             0  2px 10px 0 rgba(255,255,255, .2) inset,
-             0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
-  z-index:10;
+  clip-path:circle(50% at 50% 50%);
+}
+.border{ /* drop-shadowの影は一つ上のエレメントに掛ける */
+  filter:drop-shadow( 1px  1px gray)
+         drop-shadow(-1px  1px gray)
+         drop-shadow( 1px -1px gray)
+         drop-shadow(-1px -1px gray);
 }
 
 .dragging{
@@ -107,12 +107,7 @@
   position:absolute;
   width:var(--thumb-point-width);
   height:var(--thumb-point-width);
-  border-radius:50%;
-  border:1px solid gray;
-  background-image:linear-gradient(rgba(255,255,255,.3) 0%,transparent 50%,transparent 50%,rgba(0,0,0,.1) 100%);
-  box-shadow:0  2px  2px 0 rgba(255,255,255, .1) inset,
-             0  2px 10px 0 rgba(255,255,255, .2) inset,
-             0 -2px  2px 0 rgba(  0,  0,  0, .1) inset;
+  clip-path:circle(50% at 50% 50%);
 }
 .current{
   background:var(--thumbboard-current);
@@ -120,25 +115,25 @@
 
 /* Point Triangles ------------------------------------- */
 .pt_dnod{
-  background:linear-gradient(to top    left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
-             linear-gradient(to top    right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
+  clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+  background-color:var(--triangle-odd);
 }
 .pt_dnev{
-  background:linear-gradient(to top    left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
-             linear-gradient(to top    right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
+  clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+  background-color:var(--triangle-evn);
 }
 .pt_upod{
-  background:linear-gradient(to bottom left,  var(--triangle-odd) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
-             linear-gradient(to bottom right, var(--triangle-odd) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
+  clip-path:polygon(0% 0%, 50% 100%, 0% 100%);
+  background-color:var(--triangle-odd);
 }
 .pt_upev{
-  background:linear-gradient(to bottom left,  var(--triangle-evn) 50%, transparent 50%) top left/  50.5% 100% no-repeat,
-             linear-gradient(to bottom right, var(--triangle-evn) 50%, transparent 50%) top right/ 50.5% 100% no-repeat;
+  clip-path:polygon(0% 0%, 50% 100%, 0% 100%);
+  background-color:var(--triangle-evn);
 }
 
 /* Board Object settings ------------------------------------- */
 .bearoff{
-  transform:rotateX(70deg);
+  clip-path:ellipse(50% 15% at 50% 50%);
 }
 .turncolor{
   background-color:var(--ckrcolor);
@@ -158,8 +153,8 @@
   --thumbboard-current:#0c0;
 }
 .boardStyle0{
-  --ckrcolor:#333;
-  --diceface:#333;
+  --ckrcolor:#555;
+  --diceface:#555;
   --dicepip:#fff;
 }
 .boardStyle1{

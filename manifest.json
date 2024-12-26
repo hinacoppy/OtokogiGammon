@@ -6,8 +6,8 @@
   "display": "fullscreen",
   "background_color": "#aaa",
   "theme_color": "#aaa",
-  "description": "男気ギャモンアプリ",
-  "copyright": "(C)hinacoppy 2022",
+  "description": "漢気ギャモンアプリ",
+  "copyright": "(C)hinacoppy 2022-2024",
   "orientation": "landscape",
   "icons": [{
     "src": "icon/favicon.ico",

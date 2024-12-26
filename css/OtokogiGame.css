@@ -1,42 +1,48 @@
 /* OtokogiGame.css ------------------------------------------------ */
-/* Designed by hinacoppy 2021 ------------------------------------- */
+/* Designed by hinacoppy 2021-2024 -------------------------------- */
 
 /* Tag settings ------------------------------------- */
 *{
   user-select:none; /* タップ、ドラッグで文字選択しないように */
 }
+input,select{
+  font-size:100%;
+}
 html{
-  height:100vh;
+  height:100dvmin;
   overflow:hidden;
   overscroll-behavior:none; /* バウンススクロールを抑止(only for Android) */
-  /* height:-webkit-fill-available; /* iOSで100%表示されない事態を回避 */
 }
 body{
   margin:0;
   padding:0;
-  min-height:100vh;
-  height:100vh;
-  /*height:-webkit-fill-available;*/
+  min-height:100dvmin;
+  height:100dvmin;
   font-family:'Arial', 'Meiryo UI';
   background-color:#aaa;
 }
-input,select{
-  font-size:100%;
-}
+@media screen and (orientation:portrait) {
+.article { /* 縦画面の時は横向きに表示し、横画面にするよう促す */
+  width:100vh;
+  height:100vw;
+  margin:-100vw 0 100vh;
+  transform:rotate(90deg);
+  transform-origin:left bottom;
+}}
 
 /* Grid Layout settings ------------------------------------- */
-/* 以下すべて相対サイズにし、レスポンシブ対応可能にしておく */
+/* 横画面基準の相対サイズにし、レスポンシブ対応可能にしておく */
 .container8{
   position:relative; /* Settingボタンをabsoluteで配置するため */
   display:grid; /* Grid Layout でコンテンツを配置 */
-  grid-template-columns:70vw 15vw 15vw;
-  grid-template-rows:25vh 25vh 25vh 25vh;
+  grid-template-columns:70dvmax 15dvmax 15dvmax;
+  grid-template-rows:25dvmin 25dvmin 25dvmin 25dvmin;
 }
 .container4{
   position:relative;
   display:grid;
-  grid-template-columns:85vw 15vw 0vw;
-  grid-template-rows:25vh 25vh 25vh 25vh;
+  grid-template-columns:85dvmax 15dvmax 0dvmax;
+  grid-template-rows:25dvmin 25dvmin 25dvmin 25dvmin;
 }
 #board{
   grid-area:1/1/5/2;
@@ -67,8 +73,8 @@ input,select{
 }
 #settingbtn{
   position:absolute;
-  top:2vw;
-  left:4vw;
+  top:2dvmax;
+  left:4dvmax;
   z-index:20;
 }
 #rollbtn{
@@ -85,7 +91,7 @@ input,select{
   position:absolute;
   display:none;
   z-index:50;
-  font-size:15vw;
+  font-size:15dvmax;
   color:#f00;
 }
 #settings{
@@ -94,8 +100,8 @@ input,select{
   z-index:99;
   background-color:#dff;
   border:3px solid #00f;
-  padding:2vh 5vw;
-  font-size:3vw;
+  padding:2dvmin 5dvmax;
+  font-size:3dvmax;
 }
 
 /* Button -------------------------------------*/
@@ -106,8 +112,8 @@ input,select{
   border:3px solid var(--fg-color);
   background-color:var(--bg-color);
   border-radius:20px;
-  padding:2vh 2vw;
-  font-size:3vw;
+  padding:2dvmin 2dvmax;
+  font-size:3dvmax;
   white-space:nowrap;
 }
 .oparationbtn:disabled {

@@ -436,8 +436,9 @@ class OtokogiGammon {
         this.outerDragFlag = true;
         this.dragStartPos = {left: chkerdom[0].style.left,
                              top:  chkerdom[0].style.top };
-        chkerdom.css({left: event.clientX - 80,
-                      top:  event.clientY - 80});
+        const offset = this.board.pieceWidth / 2; //チェッカーの真ん中をつかむ
+        chkerdom.css({left: event.clientX - offset,
+                      top:  event.clientY - offset});
         let delegateEvent;
         if (evttypeflg) {
           delegateEvent = new MouseEvent("mousedown", {clientX:event.clientX, clientY:event.clientY});
