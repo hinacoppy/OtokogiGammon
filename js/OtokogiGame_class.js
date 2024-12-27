@@ -67,7 +67,7 @@ class OtokogiGammon {
     this.applybtn.      on(clickEventType, (e) => { e.preventDefault(); this.applySettingPanelAction(); });
     this.cancelbtn.     on(clickEventType, (e) => { e.preventDefault(); this.cancelSettingPanelAction(); });
     this.pointTriangle. on('touchstart mousedown', (e) => { e.preventDefault(); this.pointTouchStartAction(e); });
-    $(window).          on('resize',       (e) => { e.preventDefault(); this.redraw(); }); 
+    $(window).          on('resize',       (e) => { e.preventDefault(); this.delaydraw(); }); 
   }
 
   initGameOption() {
@@ -239,14 +239,20 @@ class OtokogiGammon {
     $("#thumbboard" + player).html(thumbboard);
   }
 
+  delaydraw() {
+    setTimeout(() => { //resizeイベントの時は$(window).height()が正しい値を返せるように少し待つ
+      this.redraw();
+    }, 100);
+  }
+
   redraw() {
     this.setPanelPosition();
     this.board.redraw(this.pointmax);
     for (let player = 0; player < 8; player++) {
-      const thumbboard = this.board.makeThumbBoard(new Ogid(this.otokogiID[player]));
-      $("#thumbboard" + player).html(thumbboard)
-                               .toggleClass("current", player == this.player) //add/delete class
-                               .toggle(player < this.playernum); //togge=show/hide
+      const ogid = new Ogid(this.otokogiID[player]);
+      this.showThumbBoard(ogid, player);
+      $("#thumbboard" + player).toggleClass("current", player == this.player) //add/delete class
+                               .toggle(player < this.playernum); //toggle=show/hide
     }
   }
 

@@ -211,8 +211,8 @@ class OtokogiBoard {
     const offtrayMarginNum = parseFloat(style.getPropertyValue('--offtrayMarginNum'));
 
     //画面(Viewport)の縦横巾を取得
-    const viewportwidth  = Math.max(window.innerWidth, window.innerHeight); //横＝長いほう
-    const viewportheight = Math.min(window.innerWidth, window.innerHeight); //縦＝短いほう
+    const viewportwidth  = Math.max($(window).width(), $(window).height()); //横＝長いほう
+    const viewportheight = Math.min($(window).width(), $(window).height()); //縦＝短いほう
 
     //ボード表示のための位置と大きさの定数を計算
     this.mainBoardHeight = this.mainBoard.height();
