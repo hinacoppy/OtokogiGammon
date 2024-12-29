@@ -117,7 +117,7 @@ class OtokogiBoard {
     xh = '<div class="' + style + '">';
 
     //offtray
-    const style2 = this.obj2style(this.getPosObjBottom(this.thumbPointX[0], this.offY));
+    const style2 = this.obj2style(this.getPosObjBottom(this.thumbPointX[0], 0));
     xh += '<div class="thumbofftray" style="' + style2 + '"></div>';
 
     //point triangles
@@ -132,7 +132,7 @@ class OtokogiBoard {
     for (let pt = 0; pt <= this.pointmax; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
-        const ex = this.thumbPointX[pt] + (pt == 0 ? this.thumbOfftrayMargin : 0);
+        const ex = this.thumbPointX[pt];
         const ey = n * (pt == 0 ? this.thumbBoffHeight : this.thumbPieceHeight);
         const style = this.obj2style(this.getPosObjBottom(ex, ey));
         const boff = (pt == 0) ? " bearoff" : "";
@@ -169,7 +169,7 @@ class OtokogiBoard {
     for (let pt = 0; pt <= this.pointmax; pt++) {
       const num = ogid.get_ptno(pt);
       for (let n = 0; n < num; n++) {
-        const ex = this.pointX[pt] + (pt == 0 ? this.offtrayMargin : 0);
+        const ex = this.pointX[pt];
         const ey = this.piecefirstY - (n * ((pt == 0) ? this.boffHeight : this.pieceHeight));
         const pos = this.getPosObjTop(ex, ey);
         const zindex = 10 + checkerid;
@@ -227,9 +227,7 @@ class OtokogiBoard {
     this.pieceWidth = viewportwidth * (boardWidth8Num / 100) / ptnum; //チェッカーは8人用に固定
     this.pieceHeight = this.pieceWidth;
     this.boffHeight = this.pieceWidth * 0.4; //ベアオフの駒は立てたように表示
-    this.offtrayMargin = offtrayMarginNum;
-    this.thumbOfftrayMargin = 2;
-    this.offY = 0;
+    this.offY = offtrayMarginNum;
 
     this.thumbPointWidth = this.thumbBoardWidth * 0.99 / ptnum;
     this.thumbPieceWidth = this.thumbPointWidth;
