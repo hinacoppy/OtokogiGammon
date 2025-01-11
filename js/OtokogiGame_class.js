@@ -290,11 +290,11 @@ class OtokogiGammon {
       document.body.addEventListener("touchleave", evfn_dragend, false);
       document.body.addEventListener("touchend",   evfn_dragend, false);
 
-      const ui = {position: { //dragStartAction()に渡すオブジェクトを作る
+      const position = { //dragStartAction()に渡すオブジェクトを作る
                    left: dragobj.offsetLeft,
                    top:  dragobj.offsetTop
                  }};
-      this.dragStartAction(origevt, ui);
+      this.dragStartAction(origevt, position);
     });
 
     //ドラッグ中のコールバック関数
@@ -323,11 +323,11 @@ class OtokogiGammon {
       document.body.removeEventListener("touchleave", evfn_dragend, false);
       document.body.removeEventListener("touchend",   evfn_dragend, false);
 
-      const ui = {position: { //dragStopAction()に渡すオブジェクトを作る
+      const position = { //dragStopAction()に渡すオブジェクトを作る
                    left: dragobj.offsetLeft,
                    top:  dragobj.offsetTop
                  }};
-      this.dragStopAction(origevt, ui);
+      this.dragStopAction(origevt, position);
     });
 
     //dragできるオブジェクトにdragstartイベントを設定
@@ -337,11 +337,11 @@ class OtokogiGammon {
     }
   }
 
-  dragStartAction(event, ui) {
+  dragStartAction(event, position) {
     this.dragObject = $(event.currentTarget); //dragStopAction()で使うがここで取り出しておかなければならない
     const id = event.currentTarget.id;
     this.dragStartPt = this.board.getDragStartPoint(id);
-    if (!this.outerDragFlag) { this.dragStartPos = ui.position; }
+    if (!this.outerDragFlag) { this.dragStartPos = position; }
     this.outerDragFlag = false;
     this.flashOnMovablePoint(this.dragStartPt);
   }
@@ -389,9 +389,9 @@ class OtokogiGammon {
     return [endpt, ok];
   }
 
-  dragStopAction(event, ui) {
+  dragStopAction(event, position) {
     this.flashOffMovablePoint();
-    const dragendpt = this.board.getDragEndPoint(ui.position);
+    const dragendpt = this.board.getDragEndPoint(position);
 
     let ok;
     [this.dragEndPt, ok] = this.checkDragEndPt(this.ogid, this.dragStartPt, dragendpt);
