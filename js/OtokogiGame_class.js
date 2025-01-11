@@ -293,7 +293,7 @@ class OtokogiGammon {
       const position = { //dragStartAction()に渡すオブジェクトを作る
                    left: dragobj.offsetLeft,
                    top:  dragobj.offsetTop
-                 }};
+                 };
       this.dragStartAction(origevt, position);
     });
 
@@ -326,7 +326,7 @@ class OtokogiGammon {
       const position = { //dragStopAction()に渡すオブジェクトを作る
                    left: dragobj.offsetLeft,
                    top:  dragobj.offsetTop
-                 }};
+                 };
       this.dragStopAction(origevt, position);
     });
 
