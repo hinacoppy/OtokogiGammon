@@ -9,15 +9,15 @@ input,select{
   font-size:100%;
 }
 html{
-  height:100dvmin;
+  height:100vmin;
   overflow:hidden;
   overscroll-behavior:none; /* バウンススクロールを抑止(only for Android) */
 }
 body{
   margin:0;
   padding:0;
-  min-height:100dvmin;
-  height:100dvmin;
+  min-height:100vmin;
+  height:100vmin;
   font-family:'Arial', 'Meiryo UI';
   background-color:#aaa;
 }
@@ -35,14 +35,14 @@ body{
 .container8{
   position:relative; /* Settingボタンをabsoluteで配置するため */
   display:grid; /* Grid Layout でコンテンツを配置 */
-  grid-template-columns:70dvmax 15dvmax 15dvmax;
-  grid-template-rows:25dvmin 25dvmin 25dvmin 25dvmin;
+  grid-template-columns:70vmax 15vmax 15vmax;
+  grid-template-rows:25vmin 25vmin 25vmin 25vmin;
 }
 .container4{
   position:relative;
   display:grid;
-  grid-template-columns:85dvmax 15dvmax 0dvmax;
-  grid-template-rows:25dvmin 25dvmin 25dvmin 25dvmin;
+  grid-template-columns:85vmax 15vmax 0vmax;
+  grid-template-rows:25vmin 25vmin 25vmin 25vmin;
 }
 #board{
   grid-area:1/1/5/2;
@@ -73,8 +73,8 @@ body{
 }
 #settingbtn{
   position:absolute;
-  top:2dvmax;
-  left:4dvmax;
+  top:2vmax;
+  left:4vmax;
   z-index:20;
 }
 #rollbtn{
@@ -91,7 +91,7 @@ body{
   position:absolute;
   display:none;
   z-index:50;
-  font-size:15dvmax;
+  font-size:15vmax;
   color:#f00;
 }
 #settings{
@@ -100,8 +100,8 @@ body{
   z-index:99;
   background-color:#dff;
   border:3px solid #00f;
-  padding:2dvmin 5dvmax;
-  font-size:3dvmax;
+  padding:2vmin 5vmax;
+  font-size:3vmax;
 }
 
 /* Button -------------------------------------*/
@@ -112,8 +112,8 @@ body{
   border:3px solid var(--fg-color);
   background-color:var(--bg-color);
   border-radius:20px;
-  padding:2dvmin 2dvmax;
-  font-size:3dvmax;
+  padding:2vmin 2vmax;
+  font-size:3vmax;
   white-space:nowrap;
 }
 .oparationbtn:disabled {
