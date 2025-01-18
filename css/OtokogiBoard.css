@@ -1,5 +1,5 @@
 /* OtokogiBoard.css ----------------------------------------------- */
-/* Designed by hinacoppy 2021-2024 -------------------------------- */
+/* Designed by hinacoppy 2021-2025 -------------------------------- */
 
 /* bgboard decoration ---------------------------------------- */
 .container{
@@ -11,10 +11,10 @@
   --thumbBoardHeightNum:100;
   --thumbBoardWidthNum:100;
 
-  --point-width:calc(var(--pointWidthNum) * 1dvmax);
-  --point-height:calc(var(--boardHeightNum) * 1dvmin * 0.7);
-  --thumb-point-width:calc(var(--thumbPointWidthNum) * 1dvmax * 0.15);
-  --thumb-point-height:calc(var(--thumbBoardHeightNum) * 1dvmin * 0.15);
+  --point-width:calc(var(--pointWidthNum) * 1vmax);
+  --point-height:calc(var(--boardHeightNum) * 1vmin * 0.7);
+  --thumb-point-width:calc(var(--thumbPointWidthNum) * 1vmax * 0.15);
+  --thumb-point-height:calc(var(--thumbBoardHeightNum) * 1vmin * 0.15);
 }
 /* Point num depend settings ---------------------- */
 .pointmax5{
